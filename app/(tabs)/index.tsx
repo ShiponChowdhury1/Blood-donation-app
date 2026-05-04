@@ -1,98 +1,76 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
-
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+import React from 'react';
+import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Bell, LogOut, Droplet } from 'lucide-react-native';
+import { useRouter } from 'expo-router';
+import HeroBanner from '@/components/home/HeroBanner';
+import DonationStatus from '@/components/home/DonationStatus';
+import DonorSearch from '@/components/home/DonorSearch';
+import StatsCards from '@/components/home/StatsCards';
+import UrgentRequests from '@/components/home/UrgentRequests';
+import UpcomingCamps from '@/components/home/UpcomingCamps';
+import DidYouKnow from '@/components/home/DidYouKnow';
 
 export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+  const router = useRouter();
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+  return (
+    <SafeAreaView className="flex-1 bg-neutral-50" edges={['top']}>
+      {/* Top Header Bar */}
+      <View className="flex-row items-center justify-between px-4 py-3 bg-white border-b border-neutral-100">
+        <View className="flex-row items-center">
+          <View className="w-8 h-8 rounded-full bg-primary-500 items-center justify-center mr-2">
+            <Droplet size={16} color="#FFFFFF" fill="#FFFFFF" />
+          </View>
+          <View>
+            <Text className="text-neutral-800 font-bold text-base">Blood-Donation</Text>
+            <Text className="text-neutral-400 text-xs">Save lives, daily</Text>
+          </View>
+        </View>
+
+        <View className="flex-row items-center gap-3">
+          {/* Notification bell */}
+          <TouchableOpacity
+            className="w-10 h-10 rounded-full bg-neutral-50 items-center justify-center relative"
+            activeOpacity={0.7}
+          >
+            <Bell size={20} color="#44403C" />
+            <View className="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-primary-500 rounded-full border-2 border-white" />
+          </TouchableOpacity>
+
+          {/* Avatar */}
+          <TouchableOpacity
+            className="w-10 h-10 rounded-full bg-neutral-200 items-center justify-center overflow-hidden"
+            activeOpacity={0.7}
+          >
+            <Text className="text-neutral-600 font-bold text-sm">A</Text>
+          </TouchableOpacity>
+
+          {/* Logout */}
+          <TouchableOpacity
+            className="w-10 h-10 rounded-full bg-neutral-50 items-center justify-center"
+            activeOpacity={0.7}
+            onPress={() => router.replace('/(auth)/login')}
+          >
+            <LogOut size={18} color="#78716C" />
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {/* Scrollable content */}
+      <ScrollView
+        className="flex-1"
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 20 }}
+      >
+        <HeroBanner />
+        <DonationStatus />
+        <DonorSearch />
+        <StatsCards />
+        <UrgentRequests />
+        <UpcomingCamps />
+        <DidYouKnow />
+      </ScrollView>
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});
