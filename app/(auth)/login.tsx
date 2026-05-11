@@ -40,7 +40,7 @@ export default function LoginScreen() {
 
         {/* Form */}
         <View className="flex-1 px-6 pt-8 pb-6">
-          <Text className="text-neutral-800 text-2xl font-bold">Welcome Back</Text>
+          <Text className="text-neutral-800 text-2xl font-bold">Welcome Back login</Text>
           <Text className="text-neutral-400 text-sm mt-1 mb-8">
             Sign in to continue donating
           </Text>

@@ -1,20 +1,29 @@
-import React from 'react';
-import { View, Text } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { FileText } from 'lucide-react-native';
+import BloodRequestsList from "@/components/home/BloodRequestsList";
+import React from "react";
+import { ScrollView, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function RequestsScreen() {
   return (
-    <SafeAreaView className="flex-1 bg-neutral-50" edges={['top']}>
-      <View className="flex-1 items-center justify-center px-6">
-        <View className="w-20 h-20 rounded-full bg-red-50 items-center justify-center mb-4">
-          <FileText size={36} color="#E03131" />
-        </View>
-        <Text className="text-neutral-800 text-xl font-bold mb-2">Blood Requests</Text>
-        <Text className="text-neutral-400 text-sm text-center leading-5">
-          View and respond to blood requests from people in need near your location.
+    <SafeAreaView className="flex-1 bg-neutral-50" edges={["top"]}>
+      {/* Header */}
+      <View className="px-4 py-4 bg-white border-b border-neutral-100">
+        <Text className="text-2xl font-bold text-neutral-800">
+          Blood Requests
+        </Text>
+        <Text className="text-sm text-neutral-500 mt-1">
+          Help those in need near you
         </Text>
       </View>
+
+      {/* Content */}
+      <ScrollView
+        className="flex-1"
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 20 }}
+      >
+        <BloodRequestsList />
+      </ScrollView>
     </SafeAreaView>
   );
 }
